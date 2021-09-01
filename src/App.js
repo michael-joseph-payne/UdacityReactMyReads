@@ -1,5 +1,7 @@
 import React from 'react'
 import * as BooksAPI from './BooksAPI'
+import Shelf from './Shelf.js';
+import SearchPage from './SearchPage';
 import './App.css'
 
 class BooksApp extends React.Component {
@@ -204,7 +206,7 @@ class BooksApp extends React.Component {
 			  {this.state.bookList.map((book) => {
                 console.log(book);
                 return (
-                  <p key={book.id}>{book.title}</p>
+                  <li key={book.id}>{book.title}</li>
                 )
               })}
 			</ul>
