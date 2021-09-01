@@ -3,7 +3,8 @@ import React from 'react';
 class Book extends React.Component {
   render() {
     const backgroundImage = this.props.book.imageLinks.smallThumbnail;
-    console.log(backgroundImage);
+    const title = this.props.book.title;
+    const authors = this.props.book.authors;
     
     return (
       <div className="book">
@@ -20,8 +21,16 @@ class Book extends React.Component {
 			</select>
 		  </div>
 		</div>
-		<div className="book-title">The Adventures of Tom Sawyer</div>
-		<div className="book-authors">Mark Twain</div>
+		<div className="book-title">{title}</div>
+		<div className="book-authors">
+        {authors.map((author, index) => {
+          return (
+            <div key={index} className="books-authors">
+              {author}
+            </div>
+          )
+        })}
+        </div>
 	  </div>
     )
   }
