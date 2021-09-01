@@ -14,12 +14,28 @@ class BooksApp extends React.Component {
   }
 
   componentDidMount() {
-    BooksAPI.getAll().then((books) => {this.setState({
-      bookList: books
-    })});
+    BooksAPI.getAll().then((books) => {
+      this.setState({bookList: books})
+    });
+  }
+  
+  filterBookListByShelf(shelf) {
+    let filteredBookList = [];
+    for(const book of this.state.bookList) {
+      if(book.shelf === shelf) {
+        filteredBookList.push(book);
+      }
+    }
+    return filteredBookList;
   }
 
   render() {
+    console.log(this.state.bookList);
+    
+    const currentlyReading = this.filterBookListByShelf('currentlyReading');
+    const wantToRead = this.filterBookListByShelf('wantToRead');
+    const read = this.filterBookListByShelf('read');
+    
     return (
       <div className="app">
         <Route exact path='/' render={() => {
@@ -29,7 +45,18 @@ class BooksApp extends React.Component {
                 <h1>MyReads</h1>
               </div>
               <div className="list-books-content">
-                <Shelf />
+                <Shelf
+            	  title='Currently Reading'
+            	  list={currentlyReading}
+    			/>
+            	<Shelf
+    			  title='Want to Read'
+    			  list={wantToRead}
+    			/>
+            	<Shelf
+    			  title='Read'
+    			  list={read}
+    			/>
               </div>
               <div className="open-search">
                 <Link
