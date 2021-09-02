@@ -28,6 +28,17 @@ class BooksApp extends React.Component {
     }
     return filteredBookList;
   }
+  
+  changeShelves = (book, shelf) => {
+    let newBookList = this.state.bookList;
+
+	const index = newBookList.findIndex((bookToFind) => bookToFind === book);
+    newBookList[index].shelf = shelf;
+    
+    BooksAPI.update(book, shelf).then(response => {
+      this.setState({bookList: newBookList});
+    });
+  }
 
   render() {
     console.log(this.state.bookList);
@@ -48,14 +59,17 @@ class BooksApp extends React.Component {
                 <Shelf
             	  title='Currently Reading'
             	  list={currentlyReading}
+    			  changeShelves={this.changeShelves}
     			/>
             	<Shelf
     			  title='Want to Read'
     			  list={wantToRead}
+    			  changeShelves={this.changeShelves}
     			/>
             	<Shelf
     			  title='Read'
     			  list={read}
+    			  changeShelves={this.changeShelves}
     			/>
               </div>
               <div className="open-search">
