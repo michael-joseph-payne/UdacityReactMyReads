@@ -31,8 +31,13 @@ class BooksApp extends React.Component {
   
   changeShelves = (book, shelf) => {
     let newBookList = this.state.bookList;
+    let index = newBookList.findIndex((bookToFind) => bookToFind === book);
+    
+    if(index === -1) {
+      newBookList = newBookList.concat(book);
+      index = newBookList.findIndex((bookToFind) => bookToFind === book);
+    }
 
-	const index = newBookList.findIndex((bookToFind) => bookToFind === book);
     newBookList[index].shelf = shelf;
     
     BooksAPI.update(book, shelf).then(response => {
@@ -41,8 +46,6 @@ class BooksApp extends React.Component {
   }
 
   render() {
-    console.log(this.state.bookList);
-    
     const currentlyReading = this.filterBookListByShelf('currentlyReading');
     const wantToRead = this.filterBookListByShelf('wantToRead');
     const read = this.filterBookListByShelf('read');
@@ -80,7 +83,11 @@ class BooksApp extends React.Component {
             </div>
           )
     	}} />
-		<Route path='/search' component={SearchPage} />
+		<Route path='/search' render={() => {
+          return (
+            <SearchPage changeShelves={this.changeShelves} />
+          )
+        }} />
       </div>
     )
   }
